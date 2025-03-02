@@ -23,8 +23,7 @@ class Facebook:
     def jak_daleko(self,name1,name2):
         if name1 not in self._users or name2 not in self._users:
             return None
-        fronta = deque()  
-        fronta.append((self._users[name1], 0))
+        fronta = deque([(self._users[name1], 0)])  
         seznam=[]
 
         while fronta:
