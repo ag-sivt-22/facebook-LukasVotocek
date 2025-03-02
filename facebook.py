@@ -1,3 +1,42 @@
+from __future__ import annotations
+from collections import deque
+
+class User:
+    def __init__(self,name) -> None:
+        self.name: str = name
+        self.friends: list[User] =[]
+
+class Facebook:
+    def __init__(self)->None:
+        self._users:dict[str,User]={}
+
+    def pridej_uzivatel(self, name:str)->None:
+        self._users[name]=User(name)
+    
+    def pridej_znamost(self,name1,name2)->None:
+        user1_uzel=self._users[name1]
+        user2_uzel=self._users[name2]
+        #
+        user1_uzel.friends.append(user2_uzel)
+        user2_uzel.friends.append(user1_uzel)
+
+    def jak_daleko(self,name1,name2):
+        if name1 not in self._users or name2 not in self._users:
+            return None
+        fronta = deque([(self._users[name1], 0)])  
+        fronta.append((self._users[name1], 0))
+        seznam=[]
+
+        while fronta:
+            aktualni, vzdalenost = fronta.popleft()
+            seznam.append(aktualni)
+            if aktualni.name == name2:
+                return vzdalenost
+            for soused in aktualni.friends:
+                if soused not in seznam:
+                    fronta.append((soused, vzdalenost + 1))            
+        return None
+
 # Vytvoření instance Facebooku
 fb = Facebook()
 
